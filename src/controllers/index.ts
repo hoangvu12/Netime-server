@@ -21,15 +21,47 @@ export default class AnimeController {
     }
   }
 
-  static async getTypeList(
-    req: Request<{ slug: string }, unknown, unknown, { page: number }>,
+  static async search(
+    req: Request<
+      unknown,
+      unknown,
+      unknown,
+      { page: number; sort: string; limit: number; keyword: string }
+    >,
     res: Response,
     next: NextFunction
   ) {
-    const { page = 1 } = req.query;
+    const { keyword, page = 1, sort, limit } = req.query;
+
+    const slug = `tim-kiem/${keyword}`;
+
+    try {
+      const list = await getList({ slug, page, sort, limit });
+
+      res.json({
+        success: true,
+        data: list.data,
+        pagination: list.pagination,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async getTypeList(
+    req: Request<
+      { slug: string },
+      unknown,
+      unknown,
+      { page: number; sort: string; limit: number }
+    >,
+    res: Response,
+    next: NextFunction
+  ) {
+    const { page = 1, sort, limit } = req.query;
     const { slug = "anime-moi" } = req.params;
     try {
-      const list = await getList(slug, page);
+      const list = await getList({ slug, page, sort, limit });
 
       res.json({
         success: true,
@@ -46,18 +78,20 @@ export default class AnimeController {
       { season: string; year: string },
       unknown,
       unknown,
-      { page: number }
+      { page: number; sort: string; limit: number }
     >,
     res: Response,
     next: NextFunction
   ) {
-    const { page = 1 } = req.query;
+    const { page = 1, sort, limit } = req.query;
     const { season = "winter", year = "2021" } = req.params;
 
     const prefix = "season";
 
+    const slug = `${prefix}/${season}/${year}`;
+
     try {
-      const list = await getList(`${prefix}/${season}/${year}`, page);
+      const list = await getList({ slug, page, sort, limit });
 
       res.json({
         success: true,
@@ -70,17 +104,24 @@ export default class AnimeController {
   }
 
   static async getGenreList(
-    req: Request<{ slug: string }, unknown, unknown, { page: number }>,
+    req: Request<
+      { slug: string },
+      unknown,
+      unknown,
+      { page: number; sort: string; limit: number }
+    >,
     res: Response,
     next: NextFunction
   ) {
-    const { page = 1 } = req.query;
-    const { slug = "hanh-dong" } = req.params;
+    const { page = 1, sort, limit } = req.query;
+    const { slug: paramSlug = "hanh-dong" } = req.params;
 
     const prefix = "the-loai";
 
+    const slug = `${prefix}/${paramSlug}`;
+
     try {
-      const list = await getList(`${prefix}/${slug}`, page);
+      const list = await getList({ slug, page, sort, limit });
 
       res.json({
         success: true,

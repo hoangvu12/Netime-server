@@ -9,12 +9,18 @@ const client = axios.create({
 const COMPLETED_TEXT = "HOÀNTẤT";
 
 export interface getListData {
-  slug: string;
-  page: number;
+  slug?: string;
+  page?: number;
+  sort?: string;
+  limit?: number;
 }
 
-export const getList = async (slug: string = "anime-moi", page: number = 1) => {
-  const { data } = await client.get(`/${slug}/trang-${page}.html`);
+export const getList = async (listData: getListData) => {
+  const { page = 1, slug = "anime-moi", sort, limit = 30 } = listData;
+
+  const { data } = await client.get(`/${slug}/trang-${page}.html`, {
+    params: { sort },
+  });
 
   const $ = cheerio.load(data);
 
@@ -31,7 +37,7 @@ export const getList = async (slug: string = "anime-moi", page: number = 1) => {
   };
 
   return {
-    data: parseList($(".MovieList.Rows").html()!),
+    data: parseList($(".MovieList.Rows").html()!).slice(0, limit),
     pagination,
   };
 };
@@ -92,7 +98,7 @@ export const getWatchInfo = async (slug: string) => {
 
       const id = episode.data("id");
       const hash = episode.data("hash");
-      const name = episode.text().trim()
+      const name = episode.text().trim();
 
       return { id, hash, name };
     });

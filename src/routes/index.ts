@@ -18,6 +18,7 @@ router.get("/seasons/:season/:year", AnimeController.getSeasonList);
 router.get("/info/:slug", AnimeController.getInfo);
 router.get("/watch/:slug", AnimeController.getWatchInfo);
 router.get("/source/", AnimeController.getSource);
+router.get("/search", AnimeController.search);
 router.get("/cors/:proxyUrl*", (req, res) => {
   req.url = req.url.replace("/cors/", "/"); // Strip '/proxy' from the front of the URL, else the proxy won't work.
   proxy.emit("request", req, res);
