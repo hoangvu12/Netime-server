@@ -33,7 +33,7 @@ export default class AnimeController {
   ) {
     const { keyword, page = 1, sort, limit } = req.query;
 
-    const slug = `tim-kiem/${keyword}`;
+    const slug = `tim-kiem/${encodeURIComponent(keyword)}`;
 
     try {
       const list = await getList({ slug, page, sort, limit });
