@@ -14,6 +14,7 @@ const router = express.Router();
 router.get("/slide", AnimeController.getSlide);
 router.get("/types/:slug", AnimeController.getTypeList);
 router.get("/genres/:slug", AnimeController.getGenreList);
+router.get("/ranking/:slug", AnimeController.getRankingList);
 router.get("/seasons/:season/:year", AnimeController.getSeasonList);
 router.get("/info/:slug", AnimeController.getInfo);
 router.get("/watch/:slug", AnimeController.getWatchInfo);

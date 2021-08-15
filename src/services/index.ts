@@ -42,6 +42,15 @@ export const getList = async (listData: getListData) => {
   };
 };
 
+export const getRankingList = async (slug: string = "today") => {
+  const { data } = await axios.post(
+    "http://animevietsub.tv/ajax/item",
+    `widget=list-film&type=hot-viewed-${slug}`
+  );
+
+  return parseList(data);
+};
+
 export const getSlide = async () => {
   const { data } = await client.get("/");
 

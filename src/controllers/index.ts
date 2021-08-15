@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import {
   getInfo,
   getList,
+  getRankingList,
   getSlide,
   getSource,
   getWatchInfo,
@@ -67,6 +68,24 @@ export default class AnimeController {
         success: true,
         data: list.data,
         pagination: list.pagination,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async getRankingList(
+    req: Request<{ slug: string }, unknown, unknown, unknown>,
+    res: Response,
+    next: NextFunction
+  ) {
+    const { slug = "today" } = req.params;
+    try {
+      const list = await getRankingList(slug);
+
+      res.json({
+        success: true,
+        data: list,
       });
     } catch (err) {
       next(err);
