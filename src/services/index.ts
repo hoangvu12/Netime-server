@@ -45,7 +45,7 @@ export const getList = async (listData: getListData) => {
 export const getRankingList = async (slug: string = "today") => {
   const { data } = await axios.post(
     "http://animevietsub.tv/ajax/item",
-    `widget=list-film&type=hot-viewed-${slug}`
+    `widget=list-film&type=hot-${slug}`
   );
 
   return parseList(data);
