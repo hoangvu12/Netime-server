@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch": "tsc -w",
+    "tsc": "tsc",
+    "watch": "npm run tsc -w",
     "dev": "nodemon dist/index.js",
-    "start": "tsc && node dist/index.js"
+    "start": "npm run tsc && node dist/index.js"
   },
   "keywords": [],
   "author": "",
