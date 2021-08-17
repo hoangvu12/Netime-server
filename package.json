@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "tsc": "tsc",
+    "tsc": "./node_modules/typescript/bin/tsc",
     "watch": "npm run tsc -w",
     "dev": "nodemon dist/index.js",
     "start": "npm run tsc && node dist/index.js"
